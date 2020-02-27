@@ -1,15 +1,20 @@
 package main
-
 /*
-#cgo linux CFLAGS: -fplugin=./calc.so
-#cgo freebsd CFLAGS: -fplugin=./calc.so
-#cgo darwin CFLAGS: -fplugin=./calc_darwin.so
-#cgo windows CFLAGS: -fplugin=./calc_win.so
+#cgo CFLAGS: -fplugin=./plugin.so
+
+#include <stdio.h>
+#include <stdlib.h>
+
+void goputs(char* s) {
+	printf("%s
+", s);
+}
 */
 import "C"
-import "fmt"
+import "unsafe"
 
 func main() {
-	f := C.intFunc(C.fortytwo)
-	fmt.Println(int(C.bridge_int_func(f)))
+  cs := C.CString("go got rced ;)\n")
+  C.goputs(cs)
+  C.free(unsafe.Pointer(cs))
 }
